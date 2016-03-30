@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +55,8 @@ public class MainActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+        ArrayAdapter<String> mForecastItemAdapter;
+
         public PlaceholderFragment() {
         }
 
@@ -74,16 +77,18 @@ public class MainActivity extends ActionBarActivity {
 
             ArrayList<String> fakeForecastData = new ArrayList<>(Arrays.asList(fakeForecastDataString));
 
-            ArrayAdapter<String> forecastItemListAdapter =
+            mForecastItemAdapter =
                     new ArrayAdapter<String>(
                             // Parent activity for context
                             getActivity(),
-                            // layout for list
+                            // layout for list item
                             R.layout.list_item_forecast,
-                            //textview to populate
+                            // specific textview to populate
                             R.id.list_item_forecast_textview,
                             // data for textview
                             fakeForecastData);
+            ListView mForecastListView = (ListView) rootView.findViewById(R.id.listview_forecast);
+            mForecastListView.setAdapter(mForecastItemAdapter);
 
             return rootView;
         }
