@@ -195,10 +195,6 @@ public class ForecastFragment extends Fragment {
                 highAndLow = formatHighLows(high, low);
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
-
-            for (String s : resultStrs) {
-                Log.v(LOG_TAG, "Forecast entry: " + s);
-            }
             return resultStrs;
 
         }
@@ -244,8 +240,6 @@ public class ForecastFragment extends Fragment {
                 .build();
 
                 URL url = new URL(builtUri.toString());
-
-                Log.v(LOG_TAG, "Built URI " + builtUri.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -301,6 +295,19 @@ public class ForecastFragment extends Fragment {
             }
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] strings) {
+            if (strings != null) {
+                mForecastItemAdapter.clear();
+                mForecastItemAdapter.setNotifyOnChange(false);
+                for (String s : strings) {
+                    mForecastItemAdapter.add(s);
+                }
+                mForecastItemAdapter.setNotifyOnChange(true);
+                mForecastItemAdapter.notifyDataSetChanged();
+            }
         }
     }
 }
